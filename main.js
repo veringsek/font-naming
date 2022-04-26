@@ -44,7 +44,7 @@ function i18n(object, locales) {
 
 const input = path.resolve(argv.from ?? '.');
 const output = path.resolve(argv.to ?? './output');
-const locales = ['zh-TW', 'zh-CN', 'ja', 'en'];
+const locales = ['zh-TW', 'zh', 'zh-CN', 'ja', 'en'];
 
 (async () => {
     for await (let file of getFiles(input)) {
@@ -63,6 +63,10 @@ const locales = ['zh-TW', 'zh-CN', 'ja', 'en'];
             const subfamily = i18n(n.fontSubfamily, locales);
             const fullname = i18n(n.fullName, locales);
             const postscriptName = i18n(n.postscriptName, locales);
+
+            for (let any of [family, subfamily, fullname, postscriptName]) {
+                if (!any) throw `Empty Names.`;
+            }
 
             let ext = path.extname(file);
             let relativePath = path.relative(input, file);
