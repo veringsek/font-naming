@@ -1,0 +1,25 @@
+{
+  "name": "font-naming",
+  "version": "0.0.1",
+  "description": "Naming font files by their actual font names.",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/veringsek/font-naming.git"
+  },
+  "author": "veringsek",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/veringsek/font-naming/issues"
+  },
+  "homepage": "https://github.com/veringsek/font-naming#readme",
+  "dependencies": {
+    "fontkit": "^1.8.1",
+    "iconv-lite": "^0.6.3",
+    "jschardet": "^3.0.0",
+    "yargs": "^17.4.1"
+  }
+}
