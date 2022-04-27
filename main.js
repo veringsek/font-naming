@@ -3,6 +3,7 @@ const path = require('path');
 const fontkit = require('fontkit');
 const yargs = require('yargs');
 const jschardet = require('jschardet');
+const CharsetDetector = require('charset-detector');
 const iconv = require('iconv-lite');
 
 let argv = yargs.option('from', {
@@ -35,8 +36,16 @@ function i18n(object, locales) {
             let value = object[l];
             if (Buffer.isBuffer(value)) {
                 let encoding = jschardet.detect(value) ?? 'SHIFT_JIS';
-                value = iconv.decode(value, encoding);
+                let en = CharsetDetector.detect(value);
+                value = iconv.decode(Buffer.from(value), encoding);
             }
+            value = value.replace(/\0+$/g, ''); // I don't know what the fuck am I doing actually...
+            if (value.includes('\0')) { // If there's Null Byte, this string might be from UTF-16
+                value = iconv.decode(Buffer.from(value), 'utf-16');
+            }
+            // if (value.includes('\0')) {
+            //     value = iconv.decode(value, 'utf32');
+            // }
             return value;
         }
     }
@@ -49,15 +58,17 @@ const locales = ['zh-TW', 'zh', 'zh-CN', 'ja', 'en'];
 (async () => {
     for await (let file of getFiles(input)) {
         try {
+            if (fs.statSync(file).size > 1 * 1024 * 1024 * 1024) {
+                throw `File size too large.`;
+            }
             let font = fontkit.openSync(file);
             if (font.fonts) {
                 font = font.fonts[0]; // Font Collection
             }
 
             if (!font.name) {
-                console.log(font);
+                throw `No Name.`;
             }
-
             let n = font.name.records;
             const family = i18n(n.fontFamily, locales);
             const subfamily = i18n(n.fontSubfamily, locales);
@@ -87,6 +98,7 @@ const locales = ['zh-TW', 'zh', 'zh-CN', 'ja', 'en'];
             if (err.message === `Unknown font format`) {
                 continue;
             } else {
+                console.log(`Failed: ${file}`);
                 console.log(err);
             }
         }
