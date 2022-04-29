@@ -18,11 +18,11 @@ where `${family}` is the font's actual font name, `${subfamily}` is the font's s
 
 ## Vulnerability
 
-The program rely on fontkit, jschardet and iconv-lite. Errors might occur when reading font file and decoding string. It failed to recognize the encoding (of names' strings) of many font files, and this has been partly "fixed" by giving case-specific testings and workarounds, according only to my use case.
+The program relies on [fontkit](https://github.com/foliojs/fontkit), [jschardet](https://github.com/aadsm/jschardet) and [iconv-lite](https://github.com/ashtuchkin/iconv-lite). Errors might occur when reading font files and decoding strings. It failed to recognize the encodings (of names' strings) of many font files, and this has been partly "fixed" by giving case-specific testings and workarounds, according only to my use case.
 
 Unless I figure out how to do encoding recognition on font files, instead of charset detection, this problem will be left unsolved because charset detection will always have chance to fail.
 
-You are, however, welcomed to modify the code as you like because this is a liberal project.
+You are, however, welcomed to modify the code as you like since this is a liberal project.
 
 ## License
 
