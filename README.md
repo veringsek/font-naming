@@ -16,7 +16,7 @@ ${family} ${subfamily}${ext}
 
 where `${family}` is the font's actual font name, `${subfamily}` is the font's sub-family name like Regualr, Bold, or Italic, and `${ext}` is the font file's extension.
 
-## Vulnerability
+## Bug
 
 The program relies on [fontkit](https://github.com/foliojs/fontkit), [jschardet](https://github.com/aadsm/jschardet) and [iconv-lite](https://github.com/ashtuchkin/iconv-lite). Errors might occur when reading font files and decoding strings. It failed to recognize the encodings (of names' strings) of many font files, and this has been partly "fixed" by giving case-specific testings and workarounds, according only to my use case.
 
